@@ -3,16 +3,21 @@ using UnityEngine;
 public class PlayerShooter : MonoBehaviour
 {
     [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private float fireRate    = 0.3f; // 몇 초에 한 번 발사 가능
-    [SerializeField] private Vector3 fireOffset = new Vector3(0f, 0.5f, 0f); // 플레이어 위쪽에서 발사
+    [SerializeField] private float fireRate   = 0.3f;
+    [SerializeField] private float fireOffset = 0.5f;
 
     private float lastFireTime;
+    private PlayerController playerController;
+
+    void Start()
+    {
+        playerController = GetComponent<PlayerController>();
+    }
 
     void Update()
     {
         if (!GameManager.Instance.IsPlaying) return;
 
-        // 스페이스바 + 쿨타임 체크
         if (Input.GetKey(KeyCode.Space) && Time.time >= lastFireTime + fireRate)
         {
             Shoot();
@@ -22,7 +27,12 @@ public class PlayerShooter : MonoBehaviour
 
     void Shoot()
     {
-        Vector3 spawnPos = transform.position + fireOffset;
-        Instantiate(bulletPrefab, spawnPos, Quaternion.identity);
+        bool facingRight = playerController.FacingRight;
+        Vector2 direction = facingRight ? Vector2.right : Vector2.left;
+        float offsetX     = facingRight ? fireOffset : -fireOffset;
+
+        Vector3 spawnPos = transform.position + new Vector3(offsetX, 0f, 0f);
+        GameObject bullet = Instantiate(bulletPrefab, spawnPos, Quaternion.identity);
+        bullet.GetComponent<Bullet>().Initialize(direction);
     }
 }

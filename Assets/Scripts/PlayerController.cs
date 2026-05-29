@@ -3,8 +3,12 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float jumpForce = 8f;
+
+    public bool FacingRight { get; private set; } = true;
 
     private Rigidbody2D rb;
+    private bool isGrounded;
 
     void Start()
     {
@@ -13,20 +17,31 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // 수평(좌우), 수직(상하) 입력 받기 — 방향키 or WASD
         float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical   = Input.GetAxisRaw("Vertical");
 
-        // 대각선 이동 시 속도가 빨라지지 않도록 normalized
-        Vector2 direction = new Vector2(horizontal, vertical).normalized;
-        rb.linearVelocity = direction * moveSpeed;
+        rb.linearVelocity = new Vector2(horizontal * moveSpeed, rb.linearVelocity.y);
+
+        if (horizontal > 0) FacingRight = true;
+        else if (horizontal < 0) FacingRight = false;
+
+        if (Input.GetKeyDown(KeyCode.UpArrow) && isGrounded)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ball"))
-        {
             GameManager.Instance.GameOver();
-        }
+
+        if (collision.gameObject.CompareTag("Ground"))
+            isGrounded = true;
+    }
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+            isGrounded = false;
     }
 }
