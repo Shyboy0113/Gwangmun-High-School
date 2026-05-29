@@ -14,9 +14,11 @@ public class Ball : MonoBehaviour
         rb.linearVelocity = Vector2.down * fallSpeed;
     }
 
-    // 카메라 밖으로 나가면 자동 삭제 — 메모리 낭비 방지
-    void OnBecameInvisible()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        Destroy(gameObject);
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            Destroy(gameObject);
+        }
     }
 }
