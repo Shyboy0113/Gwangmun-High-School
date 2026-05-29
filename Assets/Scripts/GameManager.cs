@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
 
     void UpdateScoreUI()
     {
-        scoreText.text = "점수: " + score;
+        scoreText.text = "Score : " + score;
     }
 
     // 플레이어가 공에 맞으면 호출
@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
     {
         IsPlaying = false;
         gameOverPanel.SetActive(true);
-        finalScoreText.text = "최종 점수: " + score;
+        finalScoreText.text = "Final Score : " + score;
     }
 
     // 재시작 버튼에 연결
