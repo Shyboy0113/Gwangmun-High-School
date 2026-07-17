@@ -28,6 +28,39 @@ public static class VS_SceneSetup
     const long GameOverPanelGoId = 1610375044; // 게임오버 패널
     const long FinalTextGoId     = 1952855943; // 옛 최종점수 텍스트 → 최종 생존시간
 
+    /// 재사용한 타이머 텍스트가 화면 중앙에 크게 있어 상단으로 옮긴다.
+    /// UI 중복 생성을 피하려 배선(RunSetup)과 분리한 일회성 보정.
+    [MenuItem("뱀서라이크/3. 타이머 위치 보정")]
+    public static void FixTimerPosition()
+    {
+        Scene scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+
+        GameObject timerGo = ResolveSceneObject(TimerTextGoId);
+        if (timerGo == null) { Debug.LogError("[FixTimer] 타이머 오브젝트 못 찾음"); return; }
+
+        RectTransform rt = timerGo.GetComponent<RectTransform>();
+        if (rt != null)
+        {
+            rt.anchorMin = new Vector2(0.5f, 1f);
+            rt.anchorMax = new Vector2(0.5f, 1f);
+            rt.pivot     = new Vector2(0.5f, 1f);
+            rt.anchoredPosition = new Vector2(0f, -20f);
+            rt.sizeDelta = new Vector2(300f, 60f);
+        }
+
+        TextMeshProUGUI tmp = timerGo.GetComponent<TextMeshProUGUI>();
+        if (tmp != null)
+        {
+            tmp.fontSize = 40;
+            tmp.alignment = TextAlignmentOptions.Center;
+            tmp.text = "00:00";
+        }
+
+        EditorSceneManager.MarkSceneDirty(scene);
+        EditorSceneManager.SaveScene(scene);
+        Debug.Log("[FixTimer] 타이머를 상단 중앙으로 이동 완료");
+    }
+
     [MenuItem("뱀서라이크/2. 씬 배선")]
     public static void RunSetup()
     {
