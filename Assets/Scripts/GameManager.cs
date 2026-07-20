@@ -15,6 +15,16 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private TextMeshProUGUI finalTimeText;
 
+    [Header("클리어(승리)")]
+    [Tooltip("보스 처치 시 띄울 클리어 패널")]
+    [SerializeField] private GameObject clearPanel;
+
+    [Tooltip("(선택) 클리어 패널에 생존 시간을 표시할 텍스트. 없으면 비워둬도 된다")]
+    [SerializeField] private TextMeshProUGUI clearTimeText;
+
+    [Tooltip("클리어 후 이동할 씬 이름. Build Settings에 등록돼 있어야 한다")]
+    [SerializeField] private string introSceneName = "Intro";
+
     public bool IsPlaying { get; private set; }
 
     /// 게임 시작 후 흐른 시간(초). MonsterSpawner 가 appearTime 판정에 쓴다.
@@ -35,6 +45,7 @@ public class GameManager : MonoBehaviour
         SurvivedTime = 0f;
 
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
+        if (clearPanel != null) clearPanel.SetActive(false);
         UpdateTimerUI();
     }
 
@@ -71,6 +82,31 @@ public class GameManager : MonoBehaviour
             int seconds = Mathf.FloorToInt(SurvivedTime % 60f);
             finalTimeText.text = string.Format("생존 시간  {0:00}:{1:00}", minutes, seconds);
         }
+    }
+
+    /// 보스를 처치하면 MonsterController 가 호출한다. 최종전 승리 처리.
+    public void Victory()
+    {
+        if (!IsPlaying) return;   // 이미 끝났으면(사망 등) 무시
+
+        IsPlaying = false;
+        Time.timeScale = 0f;
+
+        if (clearPanel != null) clearPanel.SetActive(true);
+
+        if (clearTimeText != null)
+        {
+            int minutes = Mathf.FloorToInt(SurvivedTime / 60f);
+            int seconds = Mathf.FloorToInt(SurvivedTime % 60f);
+            clearTimeText.text = string.Format("클리어!  생존 시간  {0:00}:{1:00}", minutes, seconds);
+        }
+    }
+
+    /// ClearPanel 의 버튼에 연결한다. 인트로 신으로 이동.
+    public void GoToIntro()
+    {
+        Time.timeScale = 1f;   // 클리어 중 timeScale=0 이므로 반드시 되돌린다
+        SceneManager.LoadScene(introSceneName);
     }
 
     /// 재시작 버튼에 연결한다.
