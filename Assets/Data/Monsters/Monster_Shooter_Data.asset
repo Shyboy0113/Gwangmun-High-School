@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05ec7364f1035c8459f1e766ce327b4e, type: 3}
+  m_Name: Monster_Shooter_Data
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterData
+  monsterName: "\uC545\uB9C8 \uC11D\uC0C1"
+  sprite: {fileID: 172626504, guid: c4d2ccab0c2ad7e47853b6e31a7ac7c2, type: 3}
+  color: {r: 0.5, g: 0.7, b: 1, a: 1}
+  size: 0.9
+  behaviorType: 1
+  attackRange: 5
+  explosionRadius: 2
+  maxHp: 4
+  moveSpeed: 1.5
+  contactDamage: 1
+  expAmount: 2
+  appearTime: 30
