@@ -35,6 +35,9 @@ public class MonsterData : ScriptableObject
     [Tooltip("폭발형 전용 — 죽을 때 터지는 반경")]
     public float explosionRadius = 2f;
 
+    [Tooltip("폭발형 전용 — 터질 때 반경 내 다른 몬스터에게 주는 데미지(N)")]
+    public int explosionDamage = 5;
+
     [Header("능력치")]
     public int maxHp = 3;
     public float moveSpeed = 2f;

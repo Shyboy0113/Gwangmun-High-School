@@ -22,10 +22,19 @@ public class ExploderBehaviour : MonsterBehaviour
 
         for (int i = 0; i < hits.Length; i++)
         {
-            if (!hits[i].CompareTag("Player")) continue;
+            // 플레이어에게는 접촉 데미지를 준다(기존 동작 유지).
+            if (hits[i].CompareTag("Player"))
+            {
+                PlayerHealth health = hits[i].GetComponent<PlayerHealth>();
+                if (health != null) health.TakeDamage(data.contactDamage);
+                continue;
+            }
 
-            PlayerHealth health = hits[i].GetComponent<PlayerHealth>();
-            if (health != null) health.TakeDamage(data.contactDamage);
+            // 반경 안의 다른 몬스터에게 폭발 데미지(N)를 준다. 자기 자신은 건너뛴다.
+            // (자신은 이미 isDead 라 TakeDamage 가 무시하지만, 명시적으로 제외해 의도를 드러낸다.)
+            MonsterController other = hits[i].GetComponent<MonsterController>();
+            if (other != null && other.gameObject != gameObject)
+                other.TakeDamage(data.explosionDamage);
         }
 
         if (explosionEffectPrefab != null)
