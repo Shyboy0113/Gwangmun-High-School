@@ -2,6 +2,7 @@ using UnityEngine;
 
 /// <summary>
 /// 가장 단순한 몬스터. 플레이어를 향해 직선으로 쫓아온다.
+/// 좌우 반전·이동 애니메이션은 부모(MonsterBehaviour.UpdateVisual)가 공통으로 처리한다.
 /// </summary>
 public class ChaseBehaviour : MonsterBehaviour
 {
@@ -19,5 +20,4 @@ public class ChaseBehaviour : MonsterBehaviour
         Vector2 direction = ((Vector2)player.position - (Vector2)transform.position).normalized;
         rb.linearVelocity = direction * data.moveSpeed;
     }
-    // ──────────────────────────────────────────
 }
