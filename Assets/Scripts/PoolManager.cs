@@ -24,6 +24,11 @@ public class PoolManager : MonoBehaviour
     private readonly Dictionary<GameObject, GameObject> instanceToPrefab =
         new Dictionary<GameObject, GameObject>();
 
+    // 프리팹 → 그 프리팹 인스턴스들을 모아 둘 하이어라키 컨테이너.
+    // 소환한 것들을 루트에 흩뿌리지 않고 종류별로 묶어 하이어라키를 깔끔하게 유지한다.
+    private readonly Dictionary<GameObject, Transform> containers =
+        new Dictionary<GameObject, Transform>();
+
     void Awake()
     {
         Instance = this;
@@ -36,7 +41,7 @@ public class PoolManager : MonoBehaviour
 
         if (!poolingEnabled)
         {
-            GameObject fresh = Instantiate(prefab, position, Quaternion.identity);
+            GameObject fresh = Instantiate(prefab, position, Quaternion.identity, GetContainer(prefab));
             instanceToPrefab[fresh] = prefab;
             return fresh;
         }
@@ -60,11 +65,50 @@ public class PoolManager : MonoBehaviour
         }
         else
         {
-            obj = Instantiate(prefab, position, Quaternion.identity);
+            obj = Instantiate(prefab, position, Quaternion.identity, GetContainer(prefab));
             instanceToPrefab[obj] = prefab;
         }
 
         return obj;
+    }
+
+    /// <summary>
+    /// 프리팹을 미리 count 개 만들어 비활성 상태로 풀에 채워 둔다.
+    /// 게임 도중 발생할 Instantiate 스파이크를 로딩 시점으로 앞당기는 용도.
+    /// 채워 둔 수를 초과하면 Get() 이 그때그때 더 만든다(확장은 그대로 유지).
+    /// </summary>
+    public void Prewarm(GameObject prefab, int count)
+    {
+        if (prefab == null || count <= 0) return;
+        if (!poolingEnabled) return; // 풀링을 끄면 미리 만들어도 Destroy 되므로 의미가 없다.
+
+        if (!pools.TryGetValue(prefab, out Queue<GameObject> queue))
+        {
+            queue = new Queue<GameObject>();
+            pools[prefab] = queue;
+        }
+
+        for (int i = 0; i < count; i++)
+        {
+            // Get() 의 신규 생성 경로와 동일하게 만들고, Release() 처럼 비활성 큐에 넣어 둔다.
+            GameObject obj = Instantiate(prefab, Vector3.zero, Quaternion.identity, GetContainer(prefab));
+            obj.SetActive(false);
+            instanceToPrefab[obj] = prefab;
+            queue.Enqueue(obj);
+        }
+    }
+
+    /// <summary>프리팹별 하이어라키 컨테이너를 가져온다. 없으면 만든다.</summary>
+    private Transform GetContainer(GameObject prefab)
+    {
+        if (!containers.TryGetValue(prefab, out Transform container))
+        {
+            // 컨테이너를 PoolManager 자식으로 두어 소환물이 종류별로 묶이게 한다.
+            container = new GameObject($"[Pool] {prefab.name}").transform;
+            container.SetParent(transform);
+            containers[prefab] = container;
+        }
+        return container;
     }
 
     /// <summary>다 쓴 오브젝트를 풀에 돌려준다. Destroy 대신 이걸 쓴다.</summary>

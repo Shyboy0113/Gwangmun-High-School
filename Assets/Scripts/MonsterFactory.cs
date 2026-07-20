@@ -19,6 +19,23 @@ public class MonsterFactory : MonoBehaviour
     [SerializeField] private GameObject shooterPrefab;
     [SerializeField] private GameObject exploderPrefab;
 
+    [Header("예열(미리 생성) 개수")]
+    [Tooltip("시작할 때 이 수만큼 미리 만들어 비활성 풀에 채운다. " +
+             "이 수를 넘어서면 게임 도중 자동으로 더 생성된다(0이면 예열 안 함).")]
+    [SerializeField] private int chasePrewarm = 20;
+    [SerializeField] private int shooterPrewarm = 10;
+    [SerializeField] private int exploderPrewarm = 10;
+
+    // PoolManager 는 Awake 에서 Instance 를 세팅하므로, Start 에서 호출하면 항상 준비돼 있다.
+    void Start()
+    {
+        if (PoolManager.Instance == null) return;
+
+        PoolManager.Instance.Prewarm(chasePrefab, chasePrewarm);
+        PoolManager.Instance.Prewarm(shooterPrefab, shooterPrewarm);
+        PoolManager.Instance.Prewarm(exploderPrefab, exploderPrewarm);
+    }
+
     public GameObject Create(MonsterData data, Vector3 position)
     {
         if (data == null) return null;
