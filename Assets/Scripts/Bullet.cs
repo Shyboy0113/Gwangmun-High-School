@@ -28,6 +28,17 @@ public class Bullet : MonoBehaviour
 
         rb.gravityScale = 0f;
         rb.linearVelocity = direction.normalized * moveSpeed;
+        
+        // Mathf.Atan2를 이용하여 x축 기준의 각도(라디안) 구하기
+        float angleInRadians = Mathf.Atan2(direction.y, direction.x);
+
+        // 라디안을 60분법 각도(Degree)로 변환 (-180 ~ 180)
+        float angleInDegrees = angleInRadians * Mathf.Rad2Deg;
+
+        // z축 회전으로 스프라이트를 진행 방향으로 돌린다.
+        // 스프라이트가 기본적으로 위(+Y)를 보고 있으므로 -90°를 빼서 기준을 맞춘다.
+        transform.rotation = Quaternion.Euler(0f, 0f, angleInDegrees - 90f);
+
     }
 
     void Update()
