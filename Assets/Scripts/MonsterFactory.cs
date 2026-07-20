@@ -18,6 +18,7 @@ public class MonsterFactory : MonoBehaviour
     [SerializeField] private GameObject chasePrefab;
     [SerializeField] private GameObject shooterPrefab;
     [SerializeField] private GameObject exploderPrefab;
+    [SerializeField] private GameObject bossPrefab;
 
     [Header("예열(미리 생성) 개수")]
     [Tooltip("시작할 때 이 수만큼 미리 만들어 비활성 풀에 채운다. " +
@@ -64,6 +65,7 @@ public class MonsterFactory : MonoBehaviour
         {
             case MonsterBehaviorType.Shooter:  return shooterPrefab;
             case MonsterBehaviorType.Exploder: return exploderPrefab;
+            case MonsterBehaviorType.Boss:     return bossPrefab;
             default:                           return chasePrefab;
         }
     }

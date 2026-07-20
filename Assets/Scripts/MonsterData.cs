@@ -6,6 +6,7 @@ public enum MonsterBehaviorType
     Chase,      // 플레이어를 향해 직선 추적
     Shooter,    // 사거리까지 접근한 뒤 멈춰서 발사
     Exploder,   // 추적하다 죽을 때 범위 폭발
+    Boss,       // 느리게 추적하며 주기적으로 탄막을 쏘는 최종 보스
 }
 
 /// <summary>
@@ -50,4 +51,9 @@ public class MonsterData : ScriptableObject
     [Tooltip("게임 시작 후 이 시간(초)이 지나야 등장한다. " +
              "0인 몬스터가 최소 하나는 있어야 초반에 적이 나온다")]
     public float appearTime = 0f;
+
+    [Header("보스")]
+    [Tooltip("체크하면 이 몬스터를 처치했을 때 게임 승리(클리어)로 처리한다. " +
+             "보스는 일반 스폰 목록이 아니라 MonsterSpawner 의 bossData 로 등장한다")]
+    public bool isBoss = false;
 }

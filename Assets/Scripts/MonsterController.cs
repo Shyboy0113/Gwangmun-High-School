@@ -68,6 +68,10 @@ public class MonsterController : MonoBehaviour
 
         DropGem();
 
+        // 보스를 처치하면 게임 클리어(최종전 승리).
+        if (data.isBoss && GameManager.Instance != null)
+            GameManager.Instance.Victory();
+
         PoolManager.Instance.Release(gameObject);
     }
 

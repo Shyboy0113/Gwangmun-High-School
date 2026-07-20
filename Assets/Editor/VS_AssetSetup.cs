@@ -40,6 +40,7 @@ public static class VS_AssetSetup
         CreateMonsterPrefab("Monster_Chase",    MonsterBehaviorType.Chase,    expGemPrefab, null);
         CreateMonsterPrefab("Monster_Shooter",  MonsterBehaviorType.Shooter,  expGemPrefab, monsterBulletPrefab);
         CreateMonsterPrefab("Monster_Exploder", MonsterBehaviorType.Exploder, expGemPrefab, null);
+        CreateMonsterPrefab("Monster_Boss",     MonsterBehaviorType.Boss,     expGemPrefab, monsterBulletPrefab);
 
         CreateMonsterData("Monster_Chase_Data",    "돌진하는 슬라임", MonsterBehaviorType.Chase,
                           new Color(0.4f, 0.9f, 0.4f), 1f, 3, 2.5f, 1, 1, 0f);
@@ -47,6 +48,15 @@ public static class VS_AssetSetup
                           new Color(0.5f, 0.7f, 1f), 0.9f, 4, 1.5f, 1, 2, 30f);
         CreateMonsterData("Monster_Exploder_Data", "터지는 폭탄",   MonsterBehaviorType.Exploder,
                           new Color(1f, 0.5f, 0.3f), 1.2f, 5, 2f, 2, 3, 60f);
+
+        // 스피드형 — 전용 프리팹 없이 Chase 행동에 이동 속도만 크게. 저체력·소형·초반 등장.
+        CreateMonsterData("Monster_Speed_Data",    "질주하는 유령", MonsterBehaviorType.Chase,
+                          new Color(1f, 1f, 0.4f), 0.75f, 1, 5.5f, 1, 1, 15f);
+
+        // 보스 — 복합형. 크고 튼튼하고 느리게 추적하며 탄막을 쏜다. 처치 시 게임 클리어.
+        // appearTime 은 무시된다(스포너의 bossSpawnTime 으로 등장). isBoss = true.
+        CreateMonsterData("Monster_Boss_Data",     "심연의 군주",   MonsterBehaviorType.Boss,
+                          new Color(0.6f, 0.2f, 0.8f), 3f, 200, 1.3f, 3, 30, 0f, isBoss: true);
 
         CreateUpgrade("Up_MoveSpeed",   "날쌘 발",     "이동 속도 +1",        UpgradeType.MoveSpeed,   1f);
         CreateUpgrade("Up_Damage",      "날카로운 탄", "공격력 +1",           UpgradeType.AttackDamage, 1f);
@@ -85,12 +95,14 @@ public static class VS_AssetSetup
         RemoveIfPresent<ChaseBehaviour>(baseObj);
         RemoveIfPresent<ShooterBehaviour>(baseObj);
         RemoveIfPresent<ExploderBehaviour>(baseObj);
+        RemoveIfPresent<BossBehaviour>(baseObj);
 
         MonsterBehaviour behaviour = null;
         switch (type)
         {
             case MonsterBehaviorType.Shooter:  behaviour = baseObj.AddComponent<ShooterBehaviour>(); break;
             case MonsterBehaviorType.Exploder: behaviour = baseObj.AddComponent<ExploderBehaviour>(); break;
+            case MonsterBehaviorType.Boss:     behaviour = baseObj.AddComponent<BossBehaviour>(); break;
             default:                           behaviour = baseObj.AddComponent<ChaseBehaviour>(); break;
         }
 
@@ -99,8 +111,8 @@ public static class VS_AssetSetup
         if (controller != null)
             SetPrivateObjectField(controller, "expGemPrefab", expGemPrefab);
 
-        // 사격형: monsterBulletPrefab 배선
-        if (type == MonsterBehaviorType.Shooter && monsterBulletPrefab != null)
+        // 사격형·보스: monsterBulletPrefab 배선 (둘 다 탄막을 쏜다)
+        if ((type == MonsterBehaviorType.Shooter || type == MonsterBehaviorType.Boss) && monsterBulletPrefab != null)
             SetPrivateObjectField(behaviour, "monsterBulletPrefab", monsterBulletPrefab);
 
         string path = $"{PrefabDir}/{name}.prefab";
@@ -169,7 +181,7 @@ public static class VS_AssetSetup
 
     static void CreateMonsterData(string fileName, string monsterName, MonsterBehaviorType type,
                                   Color color, float size, int hp, float speed,
-                                  int contactDamage, int exp, float appearTime)
+                                  int contactDamage, int exp, float appearTime, bool isBoss = false)
     {
         MonsterData data = ScriptableObject.CreateInstance<MonsterData>();
         data.monsterName   = monsterName;
@@ -182,6 +194,7 @@ public static class VS_AssetSetup
         data.contactDamage = contactDamage;
         data.expAmount     = exp;
         data.appearTime    = appearTime;
+        data.isBoss        = isBoss;
         if (type == MonsterBehaviorType.Shooter)  data.attackRange     = 5f;
         if (type == MonsterBehaviorType.Exploder) data.explosionRadius = 2.5f;
 

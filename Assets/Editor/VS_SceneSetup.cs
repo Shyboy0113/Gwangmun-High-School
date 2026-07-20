@@ -17,7 +17,7 @@ using System.Collections.Generic;
 /// </summary>
 public static class VS_SceneSetup
 {
-    const string ScenePath   = "Assets/Scenes/TestScene.unity";
+    const string ScenePath   = "Assets/Scenes/Game.unity";
     const string SceneGuid   = "8c9cfa26abfee488c85f1582747f6a02";
     const string PrefabDir   = "Assets/Prefabs";
     const string MonsterDataDir = "Assets/Data/Monsters";
@@ -102,10 +102,14 @@ public static class VS_SceneSetup
         SetRef(factory, "chasePrefab",    LoadPrefab("Monster_Chase"));
         SetRef(factory, "shooterPrefab",  LoadPrefab("Monster_Shooter"));
         SetRef(factory, "exploderPrefab", LoadPrefab("Monster_Exploder"));
+        SetRef(factory, "bossPrefab",     LoadPrefab("Monster_Boss"));
 
         // ── 4. 스포너 배선 ──
-        SetRef(spawnerObj.GetComponent<MonsterSpawner>(), "factory", factory);
-        SetRefList(spawnerObj.GetComponent<MonsterSpawner>(), "monsterTable", LoadAllMonsterData());
+        // 보스는 일반 스폰 목록에서 제외하고 bossData 로 따로 넣는다.
+        MonsterSpawner spawner = spawnerObj.GetComponent<MonsterSpawner>();
+        SetRef(spawner, "factory", factory);
+        SetRefList(spawner, "monsterTable", LoadRegularMonsterData());
+        SetRef(spawner, "bossData", LoadBossData());
 
         // ── 5. UI 생성 ──
         // 체력바 (좌상단)
@@ -342,6 +346,21 @@ public static class VS_SceneSetup
     static List<Object> LoadAllMonsterData()
     {
         return LoadAllInFolder(MonsterDataDir, "t:MonsterData");
+    }
+
+    /// 일반 스폰 목록용 — 보스는 제외한다.
+    static List<Object> LoadRegularMonsterData()
+    {
+        List<Object> all = LoadAllInFolder(MonsterDataDir, "t:MonsterData");
+        all.RemoveAll(o => o is MonsterData md && md.isBoss);
+        return all;
+    }
+
+    /// 보스 데이터 하나를 찾는다. 없으면 null.
+    static Object LoadBossData()
+    {
+        List<Object> all = LoadAllInFolder(MonsterDataDir, "t:MonsterData");
+        return all.Find(o => o is MonsterData md && md.isBoss);
     }
 
     static List<Object> LoadAllUpgradeData()
