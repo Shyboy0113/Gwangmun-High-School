@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05ec7364f1035c8459f1e766ce327b4e, type: 3}
   m_Name: Monster_Chase_Data
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
-  monsterName: "\uB3CC\uC9C4\uD558\uB294 \uC2AC\uB77C\uC784"
-  sprite: {fileID: 21300000, guid: 8901a79ef817b2649b877d6b3bb5370f, type: 3}
+  monsterName: "\uB3CC\uC9C4\uD558\uB294 \uD574\uACE8"
+  sprite: {fileID: -2092964637, guid: 4104ee12b4d54f54b91b3ba875787837, type: 3}
   color: {r: 0.4, g: 0.9, b: 0.4, a: 1}
   size: 1
   behaviorType: 0
