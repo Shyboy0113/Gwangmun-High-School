@@ -18,6 +18,10 @@ public class Bullet : MonoBehaviour
         rb.gravityScale = 0f;
         rb.linearVelocity = direction.normalized * moveSpeed;
 
+        
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
+
         // 시간이 지나면 알아서 없어지게
         Destroy(gameObject, lifeTime);
     }

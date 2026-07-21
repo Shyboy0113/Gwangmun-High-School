@@ -3,15 +3,13 @@ using UnityEngine.UI;
 
 /// <summary>
 /// 플레이어의 체력과 무적 시간.
-/// 뱀서라이크는 즉사가 아니라 깎이면서 버티는 게임이다.
 /// </summary>
 public class PlayerHealth : MonoBehaviour
 {
-    [Tooltip("한 번 맞은 뒤 이 시간(초) 동안은 다시 맞지 않는다. " +
-             "없으면 몬스터에 닿는 순간 프레임마다 맞아서 즉사한다")]
+    //무적 시간 설정
     [SerializeField] private float invincibleTime = 0.5f;
 
-    [Header("UI")]
+    //체력 UI 설정
     [SerializeField] private Image healthBarFill;
 
     private PlayerStats stats;
@@ -31,6 +29,7 @@ public class PlayerHealth : MonoBehaviour
         UpdateHealthUI();
     }
 
+
     public void TakeDamage(int damage)
     {
         if (Time.time < lastHitTime + invincibleTime) return;
@@ -43,7 +42,6 @@ public class PlayerHealth : MonoBehaviour
         if (currentHp <= 0)
             GameManager.Instance.GameOver();
     }
-    // ──────────────────────────────────────────
 
     /// 최대 체력 강화를 먹으면 그만큼 회복시킨다.
     public void Heal(int amount)

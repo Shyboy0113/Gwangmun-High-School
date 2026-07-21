@@ -12,8 +12,7 @@ GameObject:
   - component: {fileID: 3408211947810928612}
   - component: {fileID: 788529240991737485}
   - component: {fileID: 8387821249665348483}
-  - component: {fileID: 7561312510794537076}
-  - component: {fileID: 664341256398096085}
+  - component: {fileID: 825763346869373184}
   m_Layer: 0
   m_Name: Monster_Chase
   m_TagString: Monster
@@ -38,7 +37,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3408211947810928612
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -85,7 +84,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 172626504, guid: c4d2ccab0c2ad7e47853b6e31a7ac7c2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -93,8 +92,9 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!61 &788529240991737485
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -168,7 +168,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &7561312510794537076
+--- !u!114 &825763346869373184
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -177,19 +177,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 8390584276199960712}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c289d525088c7a44fb79f8bc558b9458, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f0669bb009f0a447862253664bdbf51, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MonsterController
+  m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  type: 1
+  maxHp: 3
+  moveSpeed: 2
+  touchDamage: 1
+  expReward: 1
   expGemPrefab: {fileID: 7361192277250390540, guid: 9bc77bcd9a9078742af280cc245908fd, type: 3}
---- !u!114 &664341256398096085
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8390584276199960712}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 261ca511b3c89414d85e5124859f6fa5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ChaseBehaviour
+  enemyBulletPrefab: {fileID: 3626455222081717230, guid: a6c62911ceab2f245980d97648826eef, type: 3}
+  attackRange: 5
+  fireInterval: 2
+  explosionRadius: 2
+  explosionDamage: 5
+  explosionPrefab: {fileID: 3626455222081717230, guid: bbbb8ffa3acd0e447a72d7214a4476e2, type: 3}
+  bossBulletCount: 5
+  bossSpreadAngle: 20
+  bossFireInterval: 2.5

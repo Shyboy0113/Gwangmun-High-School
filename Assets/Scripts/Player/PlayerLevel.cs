@@ -8,17 +8,16 @@ using TMPro;
 /// </summary>
 public class PlayerLevel : MonoBehaviour
 {
-    [Header("경험치 곡선")]
-    [Tooltip("1레벨에서 2레벨로 가는 데 필요한 경험치")]
+    //기본 경험치 요구
     [SerializeField] private int baseExpToLevel = 5;
 
-    [Tooltip("레벨당 필요 경험치 증가 배율. 1.3이면 레벨마다 30%씩 늘어난다")]
+    //레벨업마다 늘어나는 요구 경험치 배율 지금은 1.3배
     [SerializeField] private float expGrowthRate = 1.3f;
 
-    [Header("연결")]
+    //업그레이드 매니저 직접참조
     [SerializeField] private UpgradeManager upgradeManager;
 
-    [Header("UI")]
+    //플레이어 경험치 바
     [SerializeField] private Image expBarFill;
     [SerializeField] private TextMeshProUGUI levelText;
 
@@ -34,8 +33,7 @@ public class PlayerLevel : MonoBehaviour
         UpdateUI();
     }
 
-    // ─────────── 학생 빈칸 6 (3일차) ───────────
-    // 젬을 먹으면 호출된다. 경험치를 더하고, 목표치를 넘었으면 레벨업.
+    
     public void AddExp(int amount)
     {
         currentExp += amount;
@@ -44,11 +42,9 @@ public class PlayerLevel : MonoBehaviour
         if (currentExp >= expToNextLevel)
             LevelUp();
     }
-    // ──────────────────────────────────────────
 
     void LevelUp()
     {
-        // 초과분은 다음 레벨로 이월한다. 버리면 학생들이 손해라고 느낀다.
         currentExp -= expToNextLevel;
         currentLevel++;
 

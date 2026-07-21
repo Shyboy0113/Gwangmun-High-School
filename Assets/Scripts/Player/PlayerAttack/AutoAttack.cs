@@ -21,7 +21,7 @@ public class AutoAttack : MonoBehaviour
     {
         if (GameManager.Instance == null || !GameManager.Instance.IsPlaying) return;
 
-        // 쿨타임: 아직 쏠 때가 안 됐으면 그냥 나간다
+        // 쿨타임
         if (Time.time < lastFireTime + stats.fireRate) return;
 
         Transform target = FindNearestMonster();
