@@ -56,6 +56,8 @@ public class Bullet : MonoBehaviour
         MonsterController monster = other.GetComponent<MonsterController>();
         if (monster != null) monster.TakeDamage(damage);
 
+        GameManager.Instance?.Sfx?.PlayHit();
+
         PoolManager.Instance.Release(gameObject);
     }
 }

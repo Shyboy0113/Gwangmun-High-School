@@ -56,6 +56,8 @@ public class PlayerLevel : MonoBehaviour
 
         UpdateUI();
 
+        GameManager.Instance?.Sfx?.PlayLevelUp();
+
         if (upgradeManager != null) upgradeManager.ShowCards();
     }
 

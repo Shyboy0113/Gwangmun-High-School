@@ -49,5 +49,7 @@ public class ShooterBehaviour : MonsterBehaviour
 
         MonsterBullet monsterBullet = bullet.GetComponent<MonsterBullet>();
         if (monsterBullet != null) monsterBullet.Initialize(direction, data.contactDamage);
+
+        GameManager.Instance?.Sfx?.PlayEnemyShoot();
     }
 }

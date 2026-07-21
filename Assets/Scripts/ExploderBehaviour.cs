@@ -39,6 +39,8 @@ public class ExploderBehaviour : MonsterBehaviour
 
         if (explosionEffectPrefab != null)
             PoolManager.Instance.Get(explosionEffectPrefab, transform.position);
+
+        GameManager.Instance?.Sfx?.PlayExplosion();
     }
 
     // 씬 뷰에서 폭발 반경을 눈으로 확인할 수 있게 한다.

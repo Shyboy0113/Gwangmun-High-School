@@ -34,6 +34,7 @@ public class AutoAttack : MonoBehaviour
         if (target == null) return;
 
         Shoot(target);
+        GameManager.Instance?.Sfx?.PlayShoot();
         lastFireTime = Time.time;
     }
 

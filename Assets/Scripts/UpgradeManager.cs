@@ -75,6 +75,8 @@ public class UpgradeManager : MonoBehaviour
     // 한 프레임에 총알이 무한히 나오면서 게임이 얼어붙는다.
     public void ApplyUpgrade(UpgradeData upgrade)
     {
+        GameManager.Instance?.Sfx?.PlayUpgradeSelect();
+
         switch (upgrade.type)
         {
             case UpgradeType.MoveSpeed:

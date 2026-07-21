@@ -30,9 +30,19 @@ public class GameManager : MonoBehaviour
     /// 게임 시작 후 흐른 시간(초). MonsterSpawner 가 appearTime 판정에 쓴다.
     public float SurvivedTime { get; private set; }
 
+    /// 오디오 매니저. 싱글톤이 아니라 GameManager 에 붙은 컴포넌트로,
+    /// 다른 스크립트는 GameManager.Instance.Bgm / .Sfx 로 접근한다.
+    public BGMManager Bgm { get; private set; }
+    public SFXManager Sfx { get; private set; }
+
     void Awake()
     {
         Instance = this;
+
+        // 같은 GameObject 에 붙은 오디오 컴포넌트를 잡는다. 없어도(널이어도)
+        // 호출부가 전부 null 조건 연산자로 감싸 있어 게임은 정상 동작한다.
+        Bgm = GetComponent<BGMManager>();
+        Sfx = GetComponent<SFXManager>();
     }
 
     void Start()
@@ -47,6 +57,8 @@ public class GameManager : MonoBehaviour
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
         if (clearPanel != null) clearPanel.SetActive(false);
         UpdateTimerUI();
+
+        Bgm?.PlayMain();   // 게임 시작과 함께 배경음악 재생
     }
 
     void Update()
@@ -74,6 +86,9 @@ public class GameManager : MonoBehaviour
         IsPlaying = false;
         Time.timeScale = 0f;
 
+        Bgm?.Stop();          // 배경음악을 끄고
+        Sfx?.PlayGameOver();  // 게임오버 효과음을 낸다
+
         if (gameOverPanel != null) gameOverPanel.SetActive(true);
 
         if (finalTimeText != null)
@@ -91,6 +106,9 @@ public class GameManager : MonoBehaviour
 
         IsPlaying = false;
         Time.timeScale = 0f;
+
+        Bgm?.Stop();        // 배경음악을 끄고
+        Sfx?.PlayVictory(); // 승리 효과음을 낸다
 
         if (clearPanel != null) clearPanel.SetActive(true);
 

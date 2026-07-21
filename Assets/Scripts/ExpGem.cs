@@ -46,6 +46,8 @@ public class ExpGem : MonoBehaviour
         PlayerLevel level = other.GetComponent<PlayerLevel>();
         if (level != null) level.AddExp(expAmount);
 
+        GameManager.Instance?.Sfx?.PlayGemPickup();
+
         PoolManager.Instance.Release(gameObject);
     }
 

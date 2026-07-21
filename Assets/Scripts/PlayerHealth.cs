@@ -46,6 +46,8 @@ public class PlayerHealth : MonoBehaviour
         currentHp -= damage;
         lastHitTime = Time.time;
 
+        GameManager.Instance?.Sfx?.PlayPlayerHurt();
+
         UpdateHealthUI();
 
         if (currentHp <= 0)

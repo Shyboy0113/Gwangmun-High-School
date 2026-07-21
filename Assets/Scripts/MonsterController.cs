@@ -66,6 +66,8 @@ public class MonsterController : MonoBehaviour
         // 폭발로 죽은 몬스터의 젬이 정상적으로 나온다.
         if (behaviour != null) behaviour.OnMonsterDeath();
 
+        GameManager.Instance?.Sfx?.PlayMonsterDeath();
+
         DropGem();
 
         // 보스를 처치하면 게임 클리어(최종전 승리).
