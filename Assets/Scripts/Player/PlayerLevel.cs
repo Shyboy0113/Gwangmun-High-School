@@ -25,8 +25,6 @@ public class PlayerLevel : MonoBehaviour
     private int currentExp;
     private int expToNextLevel;
 
-    public int CurrentLevel => currentLevel;
-
     void Start()
     {
         expToNextLevel = baseExpToLevel;

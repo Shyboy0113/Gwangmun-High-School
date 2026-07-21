@@ -8,7 +8,8 @@ using TMPro;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance { get; private set; }
+    // 어디서든 GameManager.Instance 로 이 스크립트를 가져다 쓸 수 있다.
+    public static GameManager Instance;
 
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI timerText;
@@ -25,10 +26,11 @@ public class GameManager : MonoBehaviour
     [Tooltip("클리어 후 이동할 씬 이름. Build Settings에 등록돼 있어야 한다")]
     [SerializeField] private string introSceneName = "Intro";
 
-    public bool IsPlaying { get; private set; }
+    // 게임이 진행 중이면 true. 게임오버/승리하면 false.
+    public bool IsPlaying;
 
-    /// 게임 시작 후 흐른 시간(초). MonsterSpawner 가 appearTime 판정에 쓴다.
-    public float SurvivedTime { get; private set; }
+    // 게임 시작 후 흐른 시간(초). MonsterSpawner 가 appearTime 판정에 쓴다.
+    public float SurvivedTime;
 
     void Awake()
     {
@@ -60,10 +62,16 @@ public class GameManager : MonoBehaviour
     void UpdateTimerUI()
     {
         if (timerText == null) return;
+        timerText.text = FormatTime(SurvivedTime);
+    }
 
-        int minutes = Mathf.FloorToInt(SurvivedTime / 60f);
-        int seconds = Mathf.FloorToInt(SurvivedTime % 60f);
-        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+    // 초 단위 시간을 "분:초" 글자로 바꿔준다. (예: 75초 → "01:15")
+    // 아래 세 군데에서 똑같이 쓰던 걸 함수 하나로 묶었다.
+    string FormatTime(float totalSeconds)
+    {
+        int minutes = Mathf.FloorToInt(totalSeconds / 60f);
+        int seconds = Mathf.FloorToInt(totalSeconds % 60f);
+        return string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 
     /// 플레이어 체력이 0 이하가 되면 PlayerHealth 가 호출한다.
@@ -77,11 +85,7 @@ public class GameManager : MonoBehaviour
         if (gameOverPanel != null) gameOverPanel.SetActive(true);
 
         if (finalTimeText != null)
-        {
-            int minutes = Mathf.FloorToInt(SurvivedTime / 60f);
-            int seconds = Mathf.FloorToInt(SurvivedTime % 60f);
-            finalTimeText.text = string.Format("생존 시간  {0:00}:{1:00}", minutes, seconds);
-        }
+            finalTimeText.text = "생존 시간  " + FormatTime(SurvivedTime);
     }
 
     /// 보스를 처치하면 Enemy 가 호출한다. 최종전 승리 처리.
@@ -95,11 +99,7 @@ public class GameManager : MonoBehaviour
         if (clearPanel != null) clearPanel.SetActive(true);
 
         if (clearTimeText != null)
-        {
-            int minutes = Mathf.FloorToInt(SurvivedTime / 60f);
-            int seconds = Mathf.FloorToInt(SurvivedTime % 60f);
-            clearTimeText.text = string.Format("클리어!  생존 시간  {0:00}:{1:00}", minutes, seconds);
-        }
+            clearTimeText.text = "클리어!  생존 시간  " + FormatTime(SurvivedTime);
     }
 
     /// ClearPanel 의 버튼에 연결한다. 인트로 신으로 이동.
