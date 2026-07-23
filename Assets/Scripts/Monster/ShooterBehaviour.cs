@@ -7,7 +7,6 @@ using UnityEngine;
 public class ShooterBehaviour : MonsterBehaviour
 {
     [SerializeField] private GameObject monsterBulletPrefab;
-    [SerializeField] private float fireInterval = 2f;
 
     private float lastFireTime;
 
@@ -39,7 +38,7 @@ public class ShooterBehaviour : MonsterBehaviour
 
     void TryFire(Vector2 direction)
     {
-        if (Time.time < lastFireTime + fireInterval) return;
+        if (Time.time < lastFireTime + data.fireInterval) return;
         if (monsterBulletPrefab == null) return;
 
         lastFireTime = Time.time;

@@ -11,15 +11,8 @@ public class BossBehaviour : MonsterBehaviour
 {
     [SerializeField] private GameObject monsterBulletPrefab;
 
-    [Tooltip("탄막을 쏘는 간격(초)")]
-    [SerializeField] private float fireInterval = 2.5f;
-
-    [Tooltip("한 번에 쏘는 탄 수")]
-    [SerializeField] private int bulletCount = 5;
-
-    [Tooltip("탄막이 부채꼴로 벌어지는 각도")]
-    [SerializeField] private float spreadAngle = 20f;
-
+    // 발사 간격·탄 수·부채꼴 각도는 MonsterData(SO)에서 온다.
+    // 학생이 프리팹을 열지 않고 SO 값만 바꿔 보스 탄막을 조절할 수 있게 하기 위함이다.
     private float lastFireTime;
 
     public override void Init(MonsterData monsterData)
@@ -42,18 +35,18 @@ public class BossBehaviour : MonsterBehaviour
 
     void TryFire(Vector2 aimDirection)
     {
-        if (Time.time < lastFireTime + fireInterval) return;
+        if (Time.time < lastFireTime + data.fireInterval) return;
         if (monsterBulletPrefab == null) return;
 
         lastFireTime = Time.time;
 
         // 조준 방향을 중심으로 부채꼴로 여러 발을 뿌린다. (AutoAttack 의 분열탄과 같은 방식)
-        int count = Mathf.Max(1, bulletCount);
-        float startAngle = -spreadAngle * (count - 1) * 0.5f;
+        int count = Mathf.Max(1, data.bulletCount);
+        float startAngle = -data.spreadAngle * (count - 1) * 0.5f;
 
         for (int i = 0; i < count; i++)
         {
-            Vector2 dir = Rotate(aimDirection, startAngle + spreadAngle * i);
+            Vector2 dir = Rotate(aimDirection, startAngle + data.spreadAngle * i);
 
             GameObject bullet = PoolManager.Instance.Get(monsterBulletPrefab, transform.position);
             if (bullet == null) continue;

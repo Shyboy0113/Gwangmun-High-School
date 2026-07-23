@@ -33,6 +33,9 @@ public class MonsterData : ScriptableObject
     [Tooltip("사격형 전용 — 이 거리까지 접근한 뒤 멈춰서 쏜다")]
     public float attackRange = 5f;
 
+    [Tooltip("사격형·보스 전용 — 발사 간격(초). 작을수록 빠르게 쏜다")]
+    public float fireInterval = 2f;
+
     [Tooltip("폭발형 전용 — 죽을 때 터지는 반경")]
     public float explosionRadius = 2f;
 
@@ -56,4 +59,10 @@ public class MonsterData : ScriptableObject
     [Tooltip("체크하면 이 몬스터를 처치했을 때 게임 승리(클리어)로 처리한다. " +
              "보스는 일반 스폰 목록이 아니라 MonsterSpawner 의 bossData 로 등장한다")]
     public bool isBoss = false;
+
+    [Tooltip("보스 전용 — 한 번에 부채꼴로 쏘는 탄 수")]
+    public int bulletCount = 5;
+
+    [Tooltip("보스 전용 — 탄막이 부채꼴로 벌어지는 각도")]
+    public float spreadAngle = 20f;
 }
