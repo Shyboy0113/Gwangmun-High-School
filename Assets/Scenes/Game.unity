@@ -23083,7 +23083,7 @@ MonoBehaviour:
   chasePrefab: {fileID: 8390584276199960712, guid: 2de7a7a09ad14054cb710da21e4bcd10, type: 3}
   shooterPrefab: {fileID: 4912639552387018988, guid: 652033d0949040946b5762e72744fdb5, type: 3}
   exploderPrefab: {fileID: 3646582644240699563, guid: 2ea1a51d1b9f02d41902c71b61a17d16, type: 3}
-  bossPrefab: {fileID: 0}
+  bossPrefab: {fileID: 4912639552387018988, guid: bf174b6de29b48bdbc1018983848408f, type: 3}
   chasePrewarm: 20
   shooterPrewarm: 10
   exploderPrewarm: 10
@@ -25140,7 +25140,7 @@ MonoBehaviour:
   minInterval: 0.3
   maxAliveMonsters: 200
   bossSpawnTime: 180
-  bossData: {fileID: 0}
+  bossData: {fileID: 11400000, guid: f31a6e14bf0d46f38077074d3af5ea77, type: 2}
 --- !u!4 &1214102923
 Transform:
   m_ObjectHideFlags: 0
