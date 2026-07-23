@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 6147532935049430}
   - component: {fileID: -356865047056811259}
   - component: {fileID: 5736993243404275721}
-  - component: {fileID: 1894119237982962639}
+  - component: {fileID: 1656033185643590922}
   m_Layer: 0
   m_Name: Monster
-  m_TagString: Enemy
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -37,7 +37,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6147532935049430
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -84,7 +84,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -140220566, guid: 1bc6097228993f045852159e71f81d5b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -92,8 +92,9 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!61 &-356865047056811259
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -124,7 +125,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -132,7 +133,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.0004885, y: 1}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -167,7 +168,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &1894119237982962639
+--- !u!114 &1656033185643590922
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -176,7 +177,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 347697646267885770}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c289d525088c7a44fb79f8bc558b9458, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f0669bb009f0a447862253664bdbf51, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MonsterController
-  expGemPrefab: {fileID: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  type: 0
+  maxHp: 3
+  moveSpeed: 2
+  touchDamage: 1
+  expReward: 1
+  expGemPrefab: {fileID: 7361192277250390540, guid: 9bc77bcd9a9078742af280cc245908fd, type: 3}
+  enemyBulletPrefab: {fileID: 5475613126139866999, guid: 240885631bb142847b77ba995481c678, type: 3}
+  attackRange: 5
+  fireInterval: 2
+  explosionRadius: 2
+  explosionDamage: 5
+  explosionPrefab: {fileID: 3626455222081717230, guid: bbbb8ffa3acd0e447a72d7214a4476e2, type: 3}
+  bossBulletCount: 5
+  bossSpreadAngle: 20
+  bossFireInterval: 2.5

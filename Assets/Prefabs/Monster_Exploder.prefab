@@ -12,8 +12,7 @@ GameObject:
   - component: {fileID: 3744708573985274182}
   - component: {fileID: 7893029038631035314}
   - component: {fileID: 9011109390510962833}
-  - component: {fileID: 5611001488785645464}
-  - component: {fileID: 4611591543902232141}
+  - component: {fileID: 832999622783559699}
   m_Layer: 0
   m_Name: Monster_Exploder
   m_TagString: Monster
@@ -38,7 +37,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3744708573985274182
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -85,7 +84,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 393441404, guid: d33598d781682e049a53a0a13104ef29, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -93,8 +92,9 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!61 &7893029038631035314
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -168,7 +168,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &5611001488785645464
+--- !u!114 &832999622783559699
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -177,20 +177,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 3646582644240699563}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c289d525088c7a44fb79f8bc558b9458, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f0669bb009f0a447862253664bdbf51, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MonsterController
-  expGemPrefab: {fileID: 7361192277250390540, guid: 9bc77bcd9a9078742af280cc245908fd, type: 3}
---- !u!114 &4611591543902232141
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3646582644240699563}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c46a6e58b63d444792f32fea0884e39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ExploderBehaviour
-  explosionEffectPrefab: {fileID: 3626455222081717230, guid: bbbb8ffa3acd0e447a72d7214a4476e2, type: 3}
+  m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  type: 0
+  maxHp: 3
+  moveSpeed: 2
+  touchDamage: 1
+  expReward: 1
+  expGemPrefab: {fileID: 0}
+  enemyBulletPrefab: {fileID: 0}
+  attackRange: 5
+  fireInterval: 2
+  explosionRadius: 2
+  explosionDamage: 5
+  explosionPrefab: {fileID: 0}
+  bossBulletCount: 5
+  bossSpreadAngle: 20
+  bossFireInterval: 2.5
