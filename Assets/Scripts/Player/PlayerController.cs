@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     private Animator _animator;
 
     /// 마지막으로 움직인 방향. 가만히 서 있어도 값이 유지된다.
-    public Vector2 FacingDirection { get; private set; } = Vector2.right;
+    public Vector2 FacingDirection = Vector2.right;
 
     void Awake()
     {
